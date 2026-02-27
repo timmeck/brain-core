@@ -151,7 +151,7 @@ class MyRouter implements IpcRouter {
 | [Brain](https://github.com/timmeck/brain) | v2.1.0 | Error memory & code intelligence | 7777/7778 |
 | [Trading Brain](https://github.com/timmeck/trading-brain) | v1.2.0 | Adaptive trading intelligence | 7779/7780 |
 | [Marketing Brain](https://github.com/timmeck/marketing-brain) | v0.4.0 | Content strategy & social media | 7781/7782/7783 |
-| [Brain Core](https://github.com/timmeck/brain-core) | v1.6.0 | Shared infrastructure (this package) | — |
+| [Brain Core](https://github.com/timmeck/brain-core) | v1.5.0 | Shared infrastructure (this package) | — |
 
 All three brains are standalone — brain-core is an **optional** shared dependency that eliminates ~600 lines of duplicated code across the ecosystem.
 
