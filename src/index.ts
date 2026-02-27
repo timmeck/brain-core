@@ -29,3 +29,7 @@ export { c, baseIcons, header, keyValue, statusBadge, progressBar, divider, tabl
 // ── API ────────────────────────────────────────────────────
 export { BaseApiServer } from './api/server.js';
 export type { ApiServerOptions, RouteDefinition } from './api/server.js';
+
+// ── Cross-Brain ────────────────────────────────────────────
+export { CrossBrainClient } from './cross-brain/client.js';
+export type { BrainPeer } from './cross-brain/client.js';
