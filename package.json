@@ -1,0 +1,59 @@
+{
+  "name": "@timmeck/brain-core",
+  "version": "1.0.0",
+  "description": "Shared core infrastructure for the Brain ecosystem — IPC, MCP, CLI, DB connection, and utilities",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./types": "./dist/types/ipc.types.js",
+    "./utils/hash": "./dist/utils/hash.js",
+    "./utils/logger": "./dist/utils/logger.js",
+    "./utils/paths": "./dist/utils/paths.js",
+    "./utils/events": "./dist/utils/events.js",
+    "./db": "./dist/db/connection.js",
+    "./ipc/protocol": "./dist/ipc/protocol.js",
+    "./ipc/server": "./dist/ipc/server.js",
+    "./ipc/client": "./dist/ipc/client.js",
+    "./mcp/server": "./dist/mcp/server.js",
+    "./mcp/http-server": "./dist/mcp/http-server.js",
+    "./cli/colors": "./dist/cli/colors.js",
+    "./api/server": "./dist/api/server.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "test": "vitest"
+  },
+  "keywords": [
+    "brain",
+    "brain-core",
+    "mcp",
+    "claude-code",
+    "ipc",
+    "named-pipes",
+    "synapse-network",
+    "developer-tools",
+    "shared-infrastructure"
+  ],
+  "author": "Tim Mecklenburg",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/timmeck/brain-core"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "better-sqlite3": "^11.7.0",
+    "chalk": "^5.6.2",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  }
+}
