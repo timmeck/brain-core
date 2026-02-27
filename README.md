@@ -23,6 +23,7 @@ Brain Core extracts the common infrastructure used across all Brain MCP servers 
 | **CLI Colors** | Shared color palette, formatting helpers (header, table, badges) |
 | **Logger** | Winston-based structured logging with file rotation |
 | **Event Bus** | Generic typed event emitter |
+| **Cross-Brain Client** | Discover and query peer brains over IPC named pipes |
 | **Utils** | Path normalization, data dir resolution, SHA-256 hashing |
 
 ## Installation
@@ -131,13 +132,26 @@ class MyRouter implements IpcRouter {
 
 ## Brain Ecosystem
 
-| Brain | Purpose | Ports |
-|-------|---------|-------|
-| [Brain](https://github.com/timmeck/brain) | Error memory & code intelligence | 7777/7778 |
-| [Trading Brain](https://github.com/timmeck/trading-brain) | Adaptive trading intelligence | 7779/7780 |
-| [Marketing Brain](https://github.com/timmeck/marketing-brain) | Content strategy & social media | 7781/7782/7783 |
+| Brain | Version | Purpose | Ports |
+|-------|---------|---------|-------|
+| [Brain](https://github.com/timmeck/brain) | v2.0.0 | Error memory & code intelligence | 7777/7778 |
+| [Trading Brain](https://github.com/timmeck/trading-brain) | v1.1.0 | Adaptive trading intelligence | 7779/7780 |
+| [Marketing Brain](https://github.com/timmeck/marketing-brain) | v0.3.0 | Content strategy & social media | 7781/7782/7783 |
+| [Brain Core](https://github.com/timmeck/brain-core) | v1.2.0 | Shared infrastructure (this package) | — |
 
 All three brains are standalone — brain-core is an **optional** shared dependency that eliminates code duplication.
+
+## Cross-Brain Communication
+
+`CrossBrainClient` lets brains discover and query each other over IPC named pipes. Each brain exposes a `status` IPC method returning its name, version, uptime, pid, and method count — enabling automatic peer discovery without central coordination.
+
+```typescript
+import { CrossBrainClient } from '@timmeck/brain-core';
+
+const cross = new CrossBrainClient('brain');
+const peers = await cross.getAvailablePeers();
+// → [{ name: 'trading-brain', version: '1.1.0', uptime: 3600, pid: 12345, methods: 18 }, ...]
+```
 
 Visit the [Brain Hub](https://timmeck.github.io/brain-hub/) for the full ecosystem overview.
 
