@@ -9,13 +9,16 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20, 22]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ matrix.node-version }}
           cache: npm
       - run: npm ci
+      - run: npm run lint
       - run: npm run build
-      - run: npm test
-        if: ${{ hashFiles('vitest.config.*', 'src/**/*.test.ts', 'tests/**/*.test.ts') != '' }}
+      - run: npm test -- --coverage

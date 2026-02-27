@@ -30,6 +30,33 @@ export { c, baseIcons, header, keyValue, statusBadge, progressBar, divider, tabl
 export { BaseApiServer } from './api/server.js';
 export type { ApiServerOptions, RouteDefinition } from './api/server.js';
 
+// ── Math ───────────────────────────────────────────────────
+export { wilsonScore } from './math/wilson-score.js';
+export { timeDecayFactor } from './math/time-decay.js';
+
+// ── Config ─────────────────────────────────────────────────
+export { deepMerge, loadConfigFile } from './config/loader.js';
+
+// ── Synapses ──────────────────────────────────────────────
+export type {
+  NodeRef, SynapseRecord, ActivationResult, PathNode, SynapsePath,
+  NetworkStats, HebbianConfig, DecayConfig, SynapseRepoInterface,
+} from './synapses/types.js';
+export type { SynapseManagerConfig } from './synapses/synapse-manager.js';
+export { strengthen, weaken } from './synapses/hebbian.js';
+export { decayAll } from './synapses/decay.js';
+export { spreadingActivation } from './synapses/activation.js';
+export { findPath } from './synapses/pathfinder.js';
+export { BaseSynapseManager } from './synapses/synapse-manager.js';
+
+// ── Engines ───────────────────────────────────────────────
+export { BaseLearningEngine } from './learning/base-engine.js';
+export type { LearningEngineConfig } from './learning/base-engine.js';
+export { BaseResearchEngine } from './research/base-engine.js';
+export type { ResearchEngineConfig } from './research/base-engine.js';
+
 // ── Cross-Brain ────────────────────────────────────────────
 export { CrossBrainClient } from './cross-brain/client.js';
 export type { BrainPeer } from './cross-brain/client.js';
+export { CrossBrainNotifier } from './cross-brain/notifications.js';
+export type { CrossBrainEvent } from './cross-brain/notifications.js';

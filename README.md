@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/timmeck/brain-core)](https://github.com/timmeck/brain-core)
 
-**Shared infrastructure for the Brain ecosystem — IPC, MCP, CLI, DB, and utilities.**
+**Shared infrastructure for the Brain ecosystem — IPC, MCP, CLI, DB, math, synapses, and utilities.**
 
 Brain Core extracts the common infrastructure used across all Brain MCP servers ([Brain](https://github.com/timmeck/brain), [Trading Brain](https://github.com/timmeck/trading-brain), [Marketing Brain](https://github.com/timmeck/marketing-brain)) into a single, reusable package.
 
@@ -24,6 +24,14 @@ Brain Core extracts the common infrastructure used across all Brain MCP servers 
 | **Logger** | Winston-based structured logging with file rotation |
 | **Event Bus** | Generic typed event emitter |
 | **Cross-Brain Client** | Discover and query peer brains over IPC named pipes |
+| **Cross-Brain Notifier** | Push event notifications to peer brains (new in v1.5) |
+| **Math — Wilson Score** | Statistical confidence intervals for win rates / rule confidence |
+| **Math — Time Decay** | Exponential half-life decay for synapse and rule freshness |
+| **Config Loader** | `deepMerge()` + `loadConfigFile()` for layered config |
+| **Synapse Algorithms** | Hebbian learning, decay, spreading activation, A* pathfinding |
+| **BaseSynapseManager** | Abstract synapse manager with strengthen/weaken/activate/findPath/decay |
+| **BaseLearningEngine** | Abstract timer-managed learning engine with error handling |
+| **BaseResearchEngine** | Abstract timer-managed research engine with optional initial delay |
 | **Utils** | Path normalization, data dir resolution, SHA-256 hashing |
 
 ## Installation
@@ -121,36 +129,64 @@ class MyRouter implements IpcRouter {
 
 ```
 @timmeck/brain-core
-├── Types ─── IpcMessage
-├── Utils ─── hash, logger, paths, events
-├── DB ────── SQLite connection (WAL mode)
-├── IPC ───── protocol, server, client
-├── MCP ───── stdio server, HTTP/SSE server
-├── CLI ───── colors, formatting helpers
-└── API ───── BaseApiServer (CORS, auth, RPC, SSE)
+├── Types ──────── IpcMessage, SynapseRecord, NodeRef, NetworkStats
+├── Utils ──────── hash, logger, paths, events
+├── DB ─────────── SQLite connection (WAL mode)
+├── IPC ────────── protocol, server, client
+├── MCP ────────── stdio server, HTTP/SSE server
+├── CLI ────────── colors, formatting helpers
+├── API ────────── BaseApiServer (CORS, auth, RPC, SSE)
+├── Math ───────── Wilson Score, Time Decay
+├── Config ─────── deepMerge, loadConfigFile
+├── Synapses ───── Hebbian, Decay, Activation, Pathfinder, BaseSynapseManager
+├── Learning ───── BaseLearningEngine (abstract, timer-managed)
+├── Research ───── BaseResearchEngine (abstract, timer-managed)
+└── Cross-Brain ── CrossBrainClient, CrossBrainNotifier
 ```
 
 ## Brain Ecosystem
 
 | Brain | Version | Purpose | Ports |
 |-------|---------|---------|-------|
-| [Brain](https://github.com/timmeck/brain) | v2.0.0 | Error memory & code intelligence | 7777/7778 |
-| [Trading Brain](https://github.com/timmeck/trading-brain) | v1.1.0 | Adaptive trading intelligence | 7779/7780 |
-| [Marketing Brain](https://github.com/timmeck/marketing-brain) | v0.3.0 | Content strategy & social media | 7781/7782/7783 |
-| [Brain Core](https://github.com/timmeck/brain-core) | v1.2.0 | Shared infrastructure (this package) | — |
+| [Brain](https://github.com/timmeck/brain) | v2.1.0 | Error memory & code intelligence | 7777/7778 |
+| [Trading Brain](https://github.com/timmeck/trading-brain) | v1.2.0 | Adaptive trading intelligence | 7779/7780 |
+| [Marketing Brain](https://github.com/timmeck/marketing-brain) | v0.4.0 | Content strategy & social media | 7781/7782/7783 |
+| [Brain Core](https://github.com/timmeck/brain-core) | v1.6.0 | Shared infrastructure (this package) | — |
 
-All three brains are standalone — brain-core is an **optional** shared dependency that eliminates code duplication.
+All three brains are standalone — brain-core is an **optional** shared dependency that eliminates ~600 lines of duplicated code across the ecosystem.
 
 ## Cross-Brain Communication
 
 `CrossBrainClient` lets brains discover and query each other over IPC named pipes. Each brain exposes a `status` IPC method returning its name, version, uptime, pid, and method count — enabling automatic peer discovery without central coordination.
 
 ```typescript
-import { CrossBrainClient } from '@timmeck/brain-core';
+import { CrossBrainClient, CrossBrainNotifier } from '@timmeck/brain-core';
 
+// Query peers
 const cross = new CrossBrainClient('brain');
 const peers = await cross.getAvailablePeers();
-// → [{ name: 'trading-brain', version: '1.1.0', uptime: 3600, pid: 12345, methods: 18 }, ...]
+// → [{ name: 'trading-brain', version: '1.2.0', uptime: 3600, pid: 12345, methods: 18 }, ...]
+
+// Push event notifications to peers (v1.5+)
+const notifier = new CrossBrainNotifier(cross, 'brain');
+notifier.notify('error:reported', { errorId: 42, fingerprint: 'ENOENT' });
+notifier.notifyPeer('trading-brain', 'insight:created', { insightId: 7 });
+```
+
+### Base Engines
+
+Abstract base classes eliminate timer boilerplate from learning and research engines:
+
+```typescript
+import { BaseLearningEngine, BaseResearchEngine } from '@timmeck/brain-core';
+
+class MyLearningEngine extends BaseLearningEngine {
+  runCycle() { /* your learning logic */ }
+}
+
+class MyResearchEngine extends BaseResearchEngine {
+  runCycle() { /* your research logic */ }
+}
 ```
 
 Visit the [Brain Hub](https://timmeck.github.io/brain-hub/) for the full ecosystem overview.
