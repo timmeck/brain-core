@@ -1,5 +1,7 @@
 # Brain Core
 
+> **This repo has moved to [brain-ecosystem](https://github.com/timmeck/brain-ecosystem/tree/main/packages/brain-core).** This repository is archived — all development continues in the monorepo. Install via `npm install @timmeck/brain-core` (unchanged).
+
 [![npm version](https://img.shields.io/npm/v/@timmeck/brain-core)](https://www.npmjs.com/package/@timmeck/brain-core)
 [![npm downloads](https://img.shields.io/npm/dm/@timmeck/brain-core)](https://www.npmjs.com/package/@timmeck/brain-core)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
