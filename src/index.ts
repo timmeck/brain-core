@@ -55,6 +55,15 @@ export type { LearningEngineConfig } from './learning/base-engine.js';
 export { BaseResearchEngine } from './research/base-engine.js';
 export type { ResearchEngineConfig } from './research/base-engine.js';
 
+// ── Memory ───────────────────────────────────────────────
+export type {
+  MemoryRecord, SessionRecord, MemoryCategory, MemorySource, SessionOutcome,
+  RememberInput, RecallInput, StartSessionInput, EndSessionInput,
+  MemoryRepoInterface, SessionRepoInterface,
+  MemoryEngineConfig,
+} from './memory/types.js';
+export { BaseMemoryEngine } from './memory/base-memory-engine.js';
+
 // ── Cross-Brain ────────────────────────────────────────────
 export { CrossBrainClient } from './cross-brain/client.js';
 export type { BrainPeer } from './cross-brain/client.js';

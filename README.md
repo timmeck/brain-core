@@ -32,6 +32,8 @@ Brain Core extracts the common infrastructure used across all Brain MCP servers 
 | **BaseSynapseManager** | Abstract synapse manager with strengthen/weaken/activate/findPath/decay |
 | **BaseLearningEngine** | Abstract timer-managed learning engine with error handling |
 | **BaseResearchEngine** | Abstract timer-managed research engine with optional initial delay |
+| **BaseMemoryEngine** | Abstract timer-managed memory engine for expiry/consolidation/decay (new in v1.6) |
+| **Memory Types** | Shared types for Memory, Session, Remember/Recall/Session interfaces (new in v1.6) |
 | **Utils** | Path normalization, data dir resolution, SHA-256 hashing |
 
 ## Installation
@@ -141,6 +143,7 @@ class MyRouter implements IpcRouter {
 ├── Synapses ───── Hebbian, Decay, Activation, Pathfinder, BaseSynapseManager
 ├── Learning ───── BaseLearningEngine (abstract, timer-managed)
 ├── Research ───── BaseResearchEngine (abstract, timer-managed)
+├── Memory ────── BaseMemoryEngine, MemoryRecord, SessionRecord, shared interfaces
 └── Cross-Brain ── CrossBrainClient, CrossBrainNotifier
 ```
 
@@ -148,10 +151,10 @@ class MyRouter implements IpcRouter {
 
 | Brain | Version | Purpose | Ports |
 |-------|---------|---------|-------|
-| [Brain](https://github.com/timmeck/brain) | v2.1.0 | Error memory & code intelligence | 7777/7778 |
+| [Brain](https://github.com/timmeck/brain) | v2.2.0 | Error memory, code intelligence & persistent context | 7777/7778 |
 | [Trading Brain](https://github.com/timmeck/trading-brain) | v1.2.0 | Adaptive trading intelligence | 7779/7780 |
 | [Marketing Brain](https://github.com/timmeck/marketing-brain) | v0.4.0 | Content strategy & social media | 7781/7782/7783 |
-| [Brain Core](https://github.com/timmeck/brain-core) | v1.5.0 | Shared infrastructure (this package) | — |
+| [Brain Core](https://github.com/timmeck/brain-core) | v1.6.0 | Shared infrastructure (this package) | — |
 
 All three brains are standalone — brain-core is an **optional** shared dependency that eliminates ~600 lines of duplicated code across the ecosystem.
 
@@ -178,7 +181,7 @@ notifier.notifyPeer('trading-brain', 'insight:created', { insightId: 7 });
 Abstract base classes eliminate timer boilerplate from learning and research engines:
 
 ```typescript
-import { BaseLearningEngine, BaseResearchEngine } from '@timmeck/brain-core';
+import { BaseLearningEngine, BaseResearchEngine, BaseMemoryEngine } from '@timmeck/brain-core';
 
 class MyLearningEngine extends BaseLearningEngine {
   runCycle() { /* your learning logic */ }
@@ -186,6 +189,10 @@ class MyLearningEngine extends BaseLearningEngine {
 
 class MyResearchEngine extends BaseResearchEngine {
   runCycle() { /* your research logic */ }
+}
+
+class MyMemoryEngine extends BaseMemoryEngine {
+  runCycle() { /* expiry checks, consolidation, importance decay */ }
 }
 ```
 
