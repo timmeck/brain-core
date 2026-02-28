@@ -3,7 +3,7 @@
 [![npm version](https://img.shields.io/npm/v/@timmeck/brain-core)](https://www.npmjs.com/package/@timmeck/brain-core)
 [![npm downloads](https://img.shields.io/npm/dm/@timmeck/brain-core)](https://www.npmjs.com/package/@timmeck/brain-core)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/timmeck/brain-core)](https://github.com/timmeck/brain-core)
+[![GitHub stars](https://img.shields.io/github/stars/timmeck/brain-core?style=social)](https://github.com/timmeck/brain-core)
 
 **Shared infrastructure for the Brain ecosystem — IPC, MCP, CLI, DB, math, synapses, and utilities.**
 
@@ -197,6 +197,13 @@ class MyMemoryEngine extends BaseMemoryEngine {
 ```
 
 Visit the [Brain Hub](https://timmeck.github.io/brain-hub/) for the full ecosystem overview.
+
+## Support
+
+If Brain Core helps you, consider giving it a star — it helps others discover the project and keeps development going.
+
+[![Star this repo](https://img.shields.io/github/stars/timmeck/brain-core?style=social)](https://github.com/timmeck/brain-core)
+[![Sponsor](https://img.shields.io/badge/Sponsor-Support%20Development-ea4aaa)](https://github.com/sponsors/timmeck)
 
 ## License
 
