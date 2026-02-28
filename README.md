@@ -152,8 +152,8 @@ class MyRouter implements IpcRouter {
 | Brain | Version | Purpose | Ports |
 |-------|---------|---------|-------|
 | [Brain](https://github.com/timmeck/brain) | v2.2.0 | Error memory, code intelligence & persistent context | 7777/7778 |
-| [Trading Brain](https://github.com/timmeck/trading-brain) | v1.2.0 | Adaptive trading intelligence | 7779/7780 |
-| [Marketing Brain](https://github.com/timmeck/marketing-brain) | v0.4.0 | Content strategy & social media | 7781/7782/7783 |
+| [Trading Brain](https://github.com/timmeck/trading-brain) | v1.3.0 | Adaptive trading intelligence with memory & sessions | 7779/7780 |
+| [Marketing Brain](https://github.com/timmeck/marketing-brain) | v0.5.0 | Content strategy & engagement with memory & sessions | 7781/7782/7783 |
 | [Brain Core](https://github.com/timmeck/brain-core) | v1.6.0 | Shared infrastructure (this package) | — |
 
 All three brains are standalone — brain-core is an **optional** shared dependency that eliminates ~600 lines of duplicated code across the ecosystem.
@@ -168,7 +168,7 @@ import { CrossBrainClient, CrossBrainNotifier } from '@timmeck/brain-core';
 // Query peers
 const cross = new CrossBrainClient('brain');
 const peers = await cross.getAvailablePeers();
-// → [{ name: 'trading-brain', version: '1.2.0', uptime: 3600, pid: 12345, methods: 18 }, ...]
+// → [{ name: 'trading-brain', version: '1.3.0', uptime: 3600, pid: 12345, methods: 18 }, ...]
 
 // Push event notifications to peers (v1.5+)
 const notifier = new CrossBrainNotifier(cross, 'brain');
